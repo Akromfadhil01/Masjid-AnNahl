@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Galeri - Masjid Al Muta\'allimin')
+@section('title', 'Profil - Masjid Al Muta\'allimin')
 
 @section('content')
 <!-- Hero Section -->
@@ -8,68 +8,409 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8">
-                <h1 class="display-4 fw-bold mb-4">Galeri</h1>
-                <p class="lead">Dokumentasi kegiatan & fasilitas Masjid Al Muta'allimin</p>
+                <h1 class="display-4 fw-bold mb-4">Profil Masjid</h1>
+                <p class="lead">Mengenal lebih dekat Masjid Al Muta'allimin Fakultas Teknik Untirta</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Gallery Section -->
+<!-- About Section -->
 <section class="section-padding">
     <div class="container">
-        @if($galleries->count() > 0)
-            <div class="row g-4">
-                @foreach($galleries as $gallery)
-                    <div class="col-md-4 col-lg-3">
-                        <div class="card card-custom h-100 overflow-hidden">
-                            <a href="{{ asset('storage/' . $gallery->image) }}" 
-                               data-bs-toggle="modal" 
-                               data-bs-target="#imageModal{{ $gallery->id }}">
-                                <img src="{{ asset('storage/' . $gallery->image) }}" 
-                                     class="card-img-top" 
-                                     alt="{{ $gallery->title }}"
-                                     style="height: 250px; object-fit: cover; cursor: pointer; transition: transform 0.3s;"
-                                     onmouseover="this.style.transform='scale(1.05)'"
-                                     onmouseout="this.style.transform='scale(1)'">
-                            </a>
-                            <div class="card-body">
-                                <h6 class="mb-0">{{ $gallery->title }}</h6>
-                                <small class="text-muted">{{ $gallery->created_at->format('d M Y') }}</small>
+        <div class="row align-items-center">
+            <!-- Foto -->
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="card card-custom">
+                    <img src="{{ $profile && $profile->about_image ? asset('storage/' . $profile->about_image) : 'https://placehold.co/600x400/667eea/ffffff?text=Masjid+Al+Mutaallimin' }}" 
+                         class="card-img-top" 
+                         alt="Masjid Al Muta'allimin"
+                         style="height: 300px; object-fit: cover;"
+                         onerror="this.src='https://placehold.co/600x400/667eea/ffffff?text=Gambar+Tidak+Tersedia'">
+                </div>
+            </div>
+
+            <!-- Deskripsi -->
+            <div class="col-lg-7">
+                <div class="ps-lg-4">
+                    <h2 class="section-title mb-4">Tentang Masjid</h2>
+                    
+                    <div class="about-content">
+                        <p class="text-muted mb-4">
+                            {!! nl2br(e($profile->about_text_1 ?? 'Masjid Al Muta\'allimin merupakan masjid yang terletak di lingkungan Fakultas Teknik Universitas Sultan Ageng Tirtayasa. Masjid ini menjadi pusat kegiatan keagamaan, pendidikan, dan sosial bagi civitas akademika dan masyarakat sekitar.')) !!}
+                        </p>
+
+                        @if(!empty($profile->about_text_2))
+                        <p class="text-muted">
+                            {!! nl2br(e($profile->about_text_2)) !!}
+                        </p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Visi Misi Section -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Visi & Misi</h2>
+            <p class="text-muted">Pedoman dan arah perjuangan masjid</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Visi -->
+            <div class="col-lg-6">
+                <div class="card card-custom h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                <i class="bi bi-eye-fill fs-3 text-primary"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-0">Visi</h4>
+                                <small class="text-muted">Tujuan utama masjid</small>
                             </div>
                         </div>
                         
-                        <!-- Modal for Image -->
-                        <div class="modal fade" id="imageModal{{ $gallery->id }}" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">{{ $gallery->title }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body p-0">
-                                        <img src="{{ asset('storage/' . $gallery->image) }}" 
-                                             class="img-fluid w-100" 
-                                             alt="{{ $gallery->title }}">
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="visi-content">
+                            <p class="text-muted mb-0">
+                                {!! nl2br(e($profile->visi ?? 'Menjadi masjid yang menjadi pusat peradaban Islam, mencetak generasi muda yang berakhlak mulia, dan menjadi mercusuar dakwah di lingkungan kampus dan masyarakat.')) !!}
+                            </p>
                         </div>
                     </div>
-                @endforeach
+                </div>
             </div>
-            
-            <!-- Pagination -->
-            <div class="mt-5 d-flex justify-content-center">
-                {{ $galleries->links() }}
+
+            <!-- Misi -->
+            <div class="col-lg-6">
+                <div class="card card-custom h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3">
+                                <i class="bi bi-bullseye fs-3 text-success"></i>
+                            </div>
+                            <div>
+                                <h4 class="mb-0">Misi</h4>
+                                <small class="text-muted">Langkah strategis masjid</small>
+                            </div>
+                        </div>
+                        
+                        <div class="misi-content">
+                            <p class="text-muted mb-0">
+                                {!! nl2br(e($profile->misi ?? '1. Menyelenggarakan kegiatan keagamaan yang berkualitas
+2. Membina generasi muda melalui pendidikan Islam
+3. Menjadi pusat kegiatan sosial kemasyarakatan
+4. Mengoptimalkan fungsi masjid sebagai rumah Allah')) !!}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        @else
-            <div class="text-center py-5">
-                <i class="bi bi-images display-1 text-muted mb-3"></i>
-                <h3>Belum Ada Galeri</h3>
-                <p class="text-muted">Foto-foto kegiatan akan segera ditambahkan. Pantau terus halaman ini!</p>
-            </div>
-        @endif
+        </div>
     </div>
 </section>
+
+<!-- Struktur Pengurus Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Struktur Pengurus</h2>
+            <p class="text-muted">Tim pengelola Masjid Al Muta'allimin</p>
+        </div>
+
+        <div class="row justify-content-center">
+            @if($pengurus && count($pengurus) > 0)
+                @foreach ($pengurus as $pengurusItem)
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card card-custom h-100 text-center">
+                        <div class="card-body p-3">
+                            <!-- Foto -->
+                            <div class="mb-3">
+                                <img src="{{ $pengurusItem->foto ? asset('storage/' . $pengurusItem->foto) : 'https://placehold.co/150x150/667eea/ffffff?text=' . urlencode(substr($pengurusItem->nama, 0, 1)) }}" 
+                                     class="rounded-circle shadow-sm" 
+                                     width="80" height="80" 
+                                     style="object-fit: cover;"
+                                     alt="{{ $pengurusItem->nama }}"
+                                     onerror="this.src='https://placehold.co/150x150/667eea/ffffff?text=' + encodeURIComponent('{{ substr($pengurusItem->nama, 0, 1) }}')">
+                            </div>
+                            
+                            <!-- Nama & Jabatan -->
+                            <h6 class="fw-bold mb-2">{{ $pengurusItem->nama }}</h6>
+                            <p class="text-primary mb-3">{{ $pengurusItem->jabatan }}</p>
+                            
+                            <!-- Kontak -->
+                            @if($pengurusItem->kontak)
+                            <div class="mt-auto">
+                                <a href="https://wa.me/{{ $pengurusItem->kontak }}" 
+                                   target="_blank" 
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-whatsapp me-1"></i> Hubungi
+                                </a>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            @else
+                <div class="col-12 text-center py-5">
+                    <div class="bg-light rounded-circle p-4 d-inline-flex mb-3">
+                        <i class="bi bi-people display-4 text-muted"></i>
+                    </div>
+                    <h4 class="text-muted">Struktur Pengurus Belum Tersedia</h4>
+                    <p class="text-muted mb-4">Informasi struktur pengurus sedang dalam proses pembaruan</p>
+                    @auth
+                    <a href="{{ route('admin.pengurus.create') }}" class="btn btn-primary-custom">
+                        <i class="bi bi-plus-circle"></i> Tambah Pengurus
+                    </a>
+                    @endauth
+                </div>
+            @endif
+        </div>
+    </div>
+</section>
+
+<!-- Statistik Section -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Statistik Masjid</h2>
+            <p class="text-muted">Data dan fakta tentang Masjid Al Muta'allimin</p>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                            <i class="bi bi-people-fill fs-2 text-primary"></i>
+                        </div>
+                        <h3 class="fw-bold mb-2">{{ $profile->capacity ?? '500' }}</h3>
+                        <p class="text-muted mb-0">Kapasitas Jamaah</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-success bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                            <i class="bi bi-calendar-check fs-2 text-success"></i>
+                        </div>
+                        <h3 class="fw-bold mb-2">{{ $profile->year ?? '2010' }}</h3>
+                        <p class="text-muted mb-0">Tahun Berdiri</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                            <i class="bi bi-activity fs-2 text-warning"></i>
+                        </div>
+                        <h3 class="fw-bold mb-2">{{ $profile->routine_activities ?? '15+' }}</h3>
+                        <p class="text-muted mb-0">Kegiatan Rutin</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-info bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                            <i class="bi bi-info-circle fs-2 text-info"></i>
+                        </div>
+                        <h3 class="fw-bold mb-2">{{ $profile->public_info ?? 'Aktif' }}</h3>
+                        <p class="text-muted mb-0">Status</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fasilitas Section -->
+<section class="section-padding">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Fasilitas Masjid</h2>
+            <p class="text-muted">Berbagai fasilitas untuk kenyamanan jamaah</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-custom text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3">
+                            <i class="bi bi-building fs-1 text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Ruang Shalat</h5>
+                        <p class="text-muted mb-0">Ruang shalat utama yang luas dan nyaman dengan kapasitas {{ $profile->capacity ?? '780' }} jamaah</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card card-custom text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-success bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3">
+                            <i class="bi bi-droplet fs-1 text-success"></i>
+                        </div>
+                        <h5 class="card-title">Tempat Wudhu</h5>
+                        <p class="text-muted mb-0">Fasilitas tempat wudhu yang bersih dan memadai untuk jamaah</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card card-custom text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-info bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3">
+                            <i class="bi bi-door-open fs-1 text-info"></i>
+                        </div>
+                        <h5 class="card-title">Toilet</h5>
+                        <p class="text-muted mb-0">Toilet bersih dan terawat untuk kenyamanan jamaah</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card card-custom text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-warning bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3">
+                            <i class="bi bi-grid-3x3 fs-1 text-warning"></i>
+                        </div>
+                        <h5 class="card-title">Ruang Serbaguna</h5>
+                        <p class="text-muted mb-0">Ruangan untuk kajian, diskusi, dan kegiatan keislaman</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card card-custom text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-danger bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3">
+                            <i class="bi bi-people fs-1 text-danger"></i>
+                        </div>
+                        <h5 class="card-title">Ruang DKM</h5>
+                        <p class="text-muted mb-0">Ruang khusus untuk pengurus DKM dalam mengelola masjid</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card card-custom text-center h-100">
+                    <div class="card-body p-4">
+                        <div class="bg-secondary bg-opacity-10 rounded-circle p-4 d-inline-flex mb-3">
+                            <i class="bi bi-car-front fs-1 text-secondary"></i>
+                        </div>
+                        <h5 class="card-title">Area Parkir</h5>
+                        <p class="text-muted mb-0">Area parkir yang luas dan aman untuk kendaraan jamaah</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lokasi & Maps Section -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Lokasi Masjid</h2>
+            <p class="text-muted">Temukan lokasi Masjid Al Muta'allimin</p>
+        </div>
+
+        <div class="row align-items-stretch">
+            <div class="col-lg-5 mb-4">
+                <div class="card card-custom h-100">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h4 class="fw-bold mb-4">
+                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>Alamat Lengkap
+                        </h4>
+                        
+                        <div class="mb-4 flex-grow-1">
+                            <p class="mb-2">
+                                <i class="bi bi-building me-2 text-muted"></i>
+                                <strong>Masjid Al Muta'allimin</strong>
+                            </p>
+                            <p class="text-muted mb-3">
+                                Jl. Jenderal Sudirman KM 3, Kotabumi, Kec. Purwakarta,<br>
+                                Kota Cilegon, Banten 42435, Indonesia
+                            </p>
+
+                            <p class="mb-2">
+                                <i class="bi bi-clock me-2 text-muted"></i>
+                                <strong>Jam Operasional</strong>
+                            </p>
+                            <p class="text-muted mb-0">
+                                Buka 24 Jam untuk Shalat<br>
+                                Administrasi: 08.00 - 17.00 WIB
+                            </p>
+                        </div>
+
+                        <div class="mt-auto">
+                            <a href="https://maps.google.com/?q=Masjid+Al+Muta'allimin+Fakultas+Teknik+Untirta" 
+                               target="_blank" 
+                               class="btn btn-primary-custom w-100">
+                                <i class="bi bi-arrow-up-right-circle me-2"></i>Buka di Google Maps
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card card-custom h-100">
+                    <div class="card-body p-0 h-100">
+                        <!-- Google Maps Embed -->
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.037200799374!2d106.1504741750117!3d-6.125511993865611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e418adaa4f7f563%3A0x950ec58123df8596!2sUniversitas%20Sultan%20Ageng%20Tirtayasa%20(UNTIRTA)%20Kampus%20Cilegon!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" 
+                            width="100%" 
+                            height="100%"
+                            style="border:0; border-radius: 12px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row align-items-center text-white">
+            <div class="col-lg-8">
+                <h3 class="mb-2">Ingin Berkontribusi untuk Masjid?</h3>
+                <p class="mb-0 opacity-75">Mari bersama-sama memakmurkan masjid melalui donasi dan partisipasi aktif</p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <a href="{{ route('donasi') }}" class="btn btn-light btn-lg">
+                    <i class="bi bi-heart-fill text-primary me-2"></i> Donasi Sekarang
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WhatsApp Button -->
+@if($profile && $profile->whatsapp)
+<div class="position-fixed" style="right: 25px; bottom: 25px; z-index: 9999;">
+    <a href="https://wa.me/{{ $profile->whatsapp }}" 
+       target="_blank" 
+       class="btn btn-success btn-lg rounded-circle shadow"
+       style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+        <i class="bi bi-whatsapp fs-5"></i>
+    </a>
+</div>
+@endif
+
 @endsection

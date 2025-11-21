@@ -33,7 +33,6 @@ class MasjidProfileAdminController extends Controller
             $profile->about_image = $path;
         }
 
-        $profile->hero_subtitle       = $request->hero_subtitle;
         $profile->about_text_1        = $request->about_text_1;
         $profile->about_text_2        = $request->about_text_2;
         $profile->visi                = $request->visi;
@@ -43,6 +42,24 @@ class MasjidProfileAdminController extends Controller
         $profile->routine_activities  = $request->routine_activities;
         $profile->public_info         = $request->public_info;
         $profile->whatsapp            = $request->whatsapp;
+        
+        // LOKASI & MAPS
+        $profile->address             = $request->address;
+        $profile->maps_embed          = $request->maps_embed;
+        
+        $facilities = [];
+        if ($request->facility_name) {
+            foreach ($request->facility_name as $index => $name) {
+                if (!empty($name)) {
+                    $facilities[] = [
+                        'name' => $name,
+                        'icon' => $request->facility_icon[$index] ?? 'bi-building',
+                        'description' => $request->facility_description[$index] ?? ''
+                    ];
+                }
+            }
+        }
+        $profile->facilities = $facilities;
 
         $profile->save();
 

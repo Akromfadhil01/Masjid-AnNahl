@@ -21,6 +21,25 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
         
+        /* ===== MINOR FIX FOR BUG ===== */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .about-content p,
+        .visi-content p, 
+        .misi-content p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        /* ===== END FIX ===== */
+        
         /* Navbar */
         .navbar-custom {
             background-color: rgba(255, 255, 255, 0.95);
@@ -265,5 +284,4 @@
     
     @stack('scripts')
 </body>
-
 </html>

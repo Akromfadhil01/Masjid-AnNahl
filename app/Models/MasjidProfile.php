@@ -10,7 +10,7 @@ class MasjidProfile extends Model
         'hero_subtitle',
         'about_image',
         'about_text_1',
-        'about_text_2',
+        'about_text_2', 
         'visi',
         'misi',
         'capacity',
@@ -18,5 +18,12 @@ class MasjidProfile extends Model
         'routine_activities',
         'public_info',
         'whatsapp',
+        'address',  
+        'maps_embed',   
+        'facilities',
+    ];
+
+    protected $casts = [
+        'facilities' => 'array'
     ];
 }
