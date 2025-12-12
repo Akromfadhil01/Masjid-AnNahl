@@ -206,7 +206,7 @@
                     @auth
     <!-- Jika sudah login, tampilkan Dashboard -->
                         <li class="nav-item">
-                            <a class="nav-link btn btn-primary text-white ms-2" href="{{ route('admin.dashboard') }}">
+                            <a class="nav-link btn btn-outline-primary ms-2" href="{{ route('admin.dashboard') }}">
                                 <i class="bi bi-speedometer2"></i> Dashboard
                             </a>
                         </li>
